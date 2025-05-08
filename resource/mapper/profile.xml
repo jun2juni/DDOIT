@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="profile">
+	<!-- 전체회원 프로필 조회 -->
+	<select id="profileView" parameterType="int" resultType="profileVo">
+		SELECT
+				M.MEM_NO,
+				PR.IMAGE,
+                PR.BACKGROUND_IMAGE,
+				M.MEM_NICKNAME,
+				PR.INTRODUCTION,
+				P.PRODUCT_NO,
+				P.PRODUCT_IMAGE
+		FROM 	MEMBER M
+		LEFT JOIN PROFILE PR
+		ON 		  M.MEM_NO = PR.MEM_NO
+		LEFT JOIN ORDER_ITEM O
+		ON M.MEM_NO = O.MEM_NO
+		LEFT JOIN PRODUCT P
+		ON O.PRODUCT_NO = P.PRODUCT_NO
+		WHERE 	M.MEM_NO = #{memNo}
+		AND 	(O.USEYN = 'Y' OR O.PRODUCT_NO IS NULL)
+	</select>
+
+	<!-- 프로필 수정 -->
+	<update id="profileEdit" parameterType="profileVo">
+		UPDATE PROFILE
+		SET INTRODUCTION = #{introduction},
+    		IMAGE = DEFAULT,
+    		BACKGROUND_IMAGE = DEFAULT
+		WHERE MEM_NO = #{memNo}
+	</update>
+	
+	<!-- 닉네임 수정 -->
+	<update id="nicknameEdit" parameterType="memberVo">
+		UPDATE MEMBER
+		SET MEM_NICKNAME = #{memNickname}
+		WHERE MEM_NO = #{memNo}
+	</update>
+
+
+</mapper>

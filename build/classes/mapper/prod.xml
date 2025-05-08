@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="prod">
+
+	<!-- 전체 상품 조회 -->
+	<select id="prodList" parameterType="prodVo" resultType="prodVo">
+		SELECT P.*,W.MEM_NO AS WISH_CHECK, O.ORDER_NO AS OWN
+        FROM PRODUCT P
+        LEFT JOIN WISH W 
+        ON P.PRODUCT_NO = W.PRODUCT_NO 
+        AND W.MEM_NO = #{memNo}
+        AND P.PROD_STATUS = 'N'
+        LEFT JOIN ORDER_ITEM O
+        ON P.PRODUCT_NO = O.PRODUCT_NO 
+        AND O.MEM_NO = #{memNo}
+        <if test="productType != 0">WHERE PRODUCT_TYPE =#{productType}</if>
+        ORDER BY P.PRODUCT_NO
+	</select>
+
+	<!-- 위시리스트 조회 -->
+	<select id="wishList" parameterType="int" resultType="prodVo">
+		<!-- WISH테이블 -->
+		SELECT P.PRODUCT_IMAGE,
+			P.PRODUCT_NO,
+			P.PRODUCT_NAME,
+			P.PRICE,
+			P.DESCRIPTION,
+			M.MEM_NO
+		FROM WISH W, MEMBER M, PRODUCT P
+		WHERE
+			P.PRODUCT_NO = W.PRODUCT_NO
+			AND M.MEM_NO = W.MEM_NO
+			AND M.MEM_NO = #{memNo}
+		ORDER BY 2
+	</select>
+
+	<!-- 구매 페이지 -->
+	<select id="receipt" parameterType="hashMap" resultType="prodVo">
+		SELECT
+			P.PRODUCT_IMAGE, M.MEM_NO, M.MEM_NAME, M.POINTS, P.PRODUCT_NO,
+			P.PRODUCT_NAME, P.PRICE, 1 AS QTY
+		FROM MEMBER M, PRODUCT P
+		WHERE P.PRODUCT_NO = #{productNo}
+			AND M.MEM_NO = #{memNo}
+	</select>
+
+	<!-- 위시 등록 시 위시리스트 삽입 -->
+	<update id="wishon" parameterType="prodVo">
+		INSERT INTO WISH
+		VALUES (#{memNo}, #{productNo})
+	</update>
+
+	<!-- 위시 해제 시 위시리스트 삭제 -->
+	<update id="wishoff" parameterType="prodVo">
+		DELETE WISH
+		WHERE MEM_NO = #{memNo}
+		AND PRODUCT_NO = #{productNo}
+	</update>
+
+	<!-- 새 주문리스트 생성 -->
+	<update id="orderAdd" parameterType="hashMap">
+		INSERT INTO ORDER_ITEM
+		VALUES(
+			(SELECT NVL(MAX(ORDER_NO), 0)+1 AS ORDER_NO
+			FROM ORDER_ITEM),
+			SYSDATE,
+			#{memNo},
+			#{productNo},
+			#{finalPrice},
+			'N'
+		)
+	</update>
+
+	<!-- 주문번호 조회 -->
+	<select id="getOrderNo" parameterType="hashMap" resultType="int">
+		SELECT ORDER_NO
+		FROM ORDER_ITEM
+		WHERE MEM_NO = #{memNo}
+		AND PRODUCT_NO = #{productNo}
+	</select>
+
+	<!-- 포인트 사용 시 남은 포인트 업데이트 -->
+	<update id="totalPoint" parameterType="hashMap">
+		UPDATE MEMBER
+		SET POINTS = #{point}
+		WHERE MEM_NO = #{memNo}
+	</update>
+
+	<!-- 구매상품 리스트 조회 -->
+	<select id="myGoodsList" parameterType="int" resultType="prodVo">
+	SELECT P.PRODUCT_IMAGE, P.PRODUCT_NAME, P.DESCRIPTION
+	FROM ORDER_ITEM O
+	LEFT JOIN PRODUCT P
+	ON O.PRODUCT_NO = P.PRODUCT_NO
+	WHERE O.MEM_NO = #{memNo}
+	ORDER BY ORDER_NO DESC
+	</select>
+
+</mapper>

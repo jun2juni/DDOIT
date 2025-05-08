@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>과목등록 모달창</title>
+<style>
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgb(0, 0, 0);
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+}
+
+.subject-item {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+}
+
+.subject-color {
+	width: 20px;
+	height: 20px;
+	background-color: rgb(0, 0, 0);
+	margin-right: 10px;
+}
+
+.subject-name {
+	flex: 1;
+}
+
+.delete-button {
+	background-color: red;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+</style>
+</head>
+<body>
+	<h2>과목등록 모달창 예제</h2>
+	<button id="myBtn">과목등록</button>
+	<div id="myModal" class="modal">
+		<div class="modal-content">
+			<span class="close">&times;</span>
+			<div id="subject-list">
+				<!-- 과목 아이템이 여기에 추가됩니다. -->
+			</div>
+			<button id="add-subject">과목추가</button>
+			<button id="complete">완료하기</button>
+		</div>
+	</div>
+	<script>
+		// 모달 열기 var modal = document.getElementById("myModal"); var btn = document.getElementById("myBtn"); var span = document.getElementsByClassName("close")[0]; btn.onclick = function() { modal.style.display = "block"; } span.onclick = function() { modal.style.display = "none"; } window.onclick = function(event) { if (event.target == modal) { modal.style.display = "none"; } } // 과목 추가 var subjectList = document.getElementById("subject-list"); document.getElementById("add-subject").onclick = function() { var subjectItem = document.createElement("div"); subjectItem.className = "subject-item"; var subjectColor = document.createElement("div"); subjectColor.className = "subject-color"; subjectColor.style.backgroundColor = getRandomColor(); subjectItem.appendChild(subjectColor); var subjectName = document.createElement("input"); subjectName.className = "subject-name"; subjectName.type = "text"; subjectName.placeholder = "과목명"; subjectItem.appendChild(subjectName); var deleteButton = document.createElement("button"); deleteButton.className = "delete-button"; deleteButton.innerText = "삭제"; deleteButton.onclick = function() { subjectList.removeChild(subjectItem); } subjectItem.appendChild(deleteButton); subjectList.appendChild(subjectItem); } // 완료하기 버튼 document.getElementById("complete").onclick = function() { var subjects = document.querySelectorAll(".subject-item"); var subjectArray = []; subjects.forEach(function(subject) { var name = subject.querySelector(".subject-name").value; var color = subject.querySelector(".subject-color").style.backgroundColor; if (name) { subjectArray.push({ name: name, color: color }); } }); console.log("생성된 과목:", subjectArray); modal.style.display = "none"; } // RGB 컬러 랜덤 값 생성 함수 function getRandomColor() { var r = Math.floor(Math.random() * 256); var g = Math.floor(Math.random() * 256); var b = Math.floor(Math.random() * 256); return "rgb(" + r + "," + g + "," + b + ")"; }
+	</script>

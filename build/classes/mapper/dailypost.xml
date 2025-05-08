@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dailyPost">
+
+	<select id="dailyPostList" parameterType="postVo" resultType="postVo">
+		SELECT A.* FROM (
+	        SELECT 
+	            P.POST_NO,
+	            B.BOARD_NAME,
+	            M.MEM_NICKNAME,
+	            P.POST_NAME,
+	            P.CONTENT,
+	            P.VIEW_COUNT,
+	            P.RECOMMEND,
+	            P.CREATED_DATE,
+	            ROWNUM AS RNUM
+	        FROM 
+	            POST P,
+	            BOARD B,
+	            MEMBER M
+	        WHERE 	
+	            P.BOARD_NO = B.BOARD_NO
+	            AND P.MEM_NO = M.MEM_NO
+	            AND P.POST_STATUS = 'Y'
+	            AND B.BOARD_STATUS = 'Y'
+	            <if test="boardNo != null">
+	                AND P.BOARD_NO = #{boardNo}
+	            </if>
+	            <!-- 검색 기능 고려할 때 -->
+	            <if test="searchKeyword != null and searchKeyword != ''">
+	                AND (
+	                    UPPER(P.POST_NAME) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+	                    OR UPPER(P.CONTENT) LIKE '%' || UPPER(#{searchKeyword}) || '%'
+	                )
+	            </if>
+	            <!-- 무한 스크롤 페이지네이션 -->
+	            AND ROWNUM &lt;= #{page} * #{pageSize}
+	        ORDER BY 
+	            P.CREATED_DATE DESC
+	    ) A
+	    WHERE RNUM > (#{page} - 1) * #{pageSize}
+	</select>
+
+</mapper>

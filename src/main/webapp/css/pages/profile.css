@@ -1,0 +1,106 @@
+@charset "UTF-8";
+
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f9f9f9;
+}
+
+.profile-container {
+	max-width: 800px;
+	margin: 50px auto;
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	padding: 20px;
+}
+
+.profile-header {
+	position: relative;
+	background-size : cover;
+	background-position : center; aspect-ratio : 5/ 4; /* 배경 이미지 3:4 비율 */
+	border-radius: 10px;
+	overflow: hidden;
+	background-position: center;
+	aspect-ratio: 5/4;
+	background-size: cover;
+}
+
+.profile-image {
+	position: absolute;
+	bottom: 5px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.profile-image img.editable {
+    border: 2px dashed #00aaff;
+    cursor: pointer;
+}
+
+.profile-image img {
+	width: 150px;
+	height: 150px;
+	border-radius: 50%;
+	border: 4px solid #fff;
+	background-color: white;
+}
+
+.profile-details {
+	text-align: center;
+	margin-top: 70px; /* 프로필 이미지 높이 고려 */
+}
+
+.profile-nickname {
+	font-size: 1.8rem;
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.profile-settings-btn {
+	margin-top: 10px;
+}
+
+.profile-description {
+	border: 1px solid #ddd;
+	padding: 15px;
+	border-radius: 5px;
+	background-color: #f8f9fa;
+	font-size: 1rem;
+	margin-bottom: 20px;
+}
+
+.profile-gallery {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 10px;
+}
+
+.profile-gallery .icon-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	height: 80px;
+	background-color: #f8f9fa;
+	font-size: 1.5rem;
+	color: #007bff;
+}
+
+.section-title {
+	font-size: 1.2rem;
+	font-weight: bold;
+	margin-bottom: 10px;
+	border-bottom: 2px solid #007bff;
+	display: inline-block;
+}
+
+.profile-button {
+    width: 80px; /* 버튼 너비 고정 */
+    margin-right: 2px; /* 버튼 간 간격 */
+}
+
+#cancelBtn {
+    margin-left: 2px; /* 취소 버튼 간격 */
+    margin-top : 10px;
+}

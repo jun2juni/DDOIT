@@ -1,0 +1,189 @@
+@charset "UTF-8";
+
+
+body {
+	font-family: 'Arial', sans-serif;
+	background: linear-gradient(to right, #fff5f0);
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	display: flex;
+	justify-content: space-between;
+	margin: 20px;
+}
+
+.left-section {
+	width: 40%;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+}
+
+.right-section {
+	width: 55%;
+	padding: 20px;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	background-color: #fff;
+}
+
+h1, h2 {
+	color: #ff4400b9;
+}
+
+.planner-date {
+	text-align: center;
+	font-size: 1.2em;
+	margin-bottom: 10px;
+	font-weight: bold;
+}
+
+.section-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.subject-details textarea {
+	width: 100%;
+	height: 150px;
+	margin-top: 10px;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	padding: 10px;
+}
+
+.time-table {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	grid-gap: 5px;
+}
+
+.time-slot {
+	width: 60px;
+	height: 30px;
+	border-radius: 4px;
+	border: 1px solid #ff4400b9;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	background-color: #fff6f2;
+	font-size: 12px;
+}
+
+.time-slot.selected {
+	background: linear-gradient(to bottom, #FF8C66, #ff4400b9);
+	color: #fff;
+	border: none;
+}
+
+.total-time {
+	margin-top: 20px;
+	font-weight: bold;
+	color: #ff4400b9;
+}
+
+.subject-list {
+	margin-top: 20px;
+}
+
+.subject-list li {
+	margin: 5px 0;
+	padding: 5px;
+	border: 1px solid #ff4400b9;
+	border-radius: 4px;
+	background-color: #fff6f2;
+}
+
+button {
+	background-color: #ff4400b9;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	padding: 8px 12px;
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #cc3700;
+}
+/* 플래너 과목 세부사항입력하는창  */
+ #subjectDetails {
+ 	padding:0;
+    width: 80%;
+    height: 4.25em;
+    resize: none;
+    border-color: red;
+    outline: 1px red;
+    border: 1px solid #ff4400b9;
+    
+  }
+  /* select 박스  */
+.form-select{
+	font-weight:bold;
+	border:2px;
+	padding:0px;
+	width: 25%;
+	font-size: 20px;
+	height: 2.9em;
+    border: none;
+    resize: none;
+    border: 1px solid #ff4400b9;
+	
+}
+
+
+/*  추가된 CSS 코드 */
+    /* 모달 스타일 */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+        padding-top: 60px;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+        max-width: 500px;
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .subject-option {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+    }
+
+    .delete-btn, .add-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+    }

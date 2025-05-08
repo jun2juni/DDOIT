@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+    <select id="noticeList" resultType="noticeVo">
+        SELECT *
+        FROM BOARD
+        WHERE BOARD_STATUS = 'Y'
+        AND BOARD_TYPE IN ('NOTICE', 'IMPORTANT')
+        ORDER BY CASE WHEN BOARD_TYPE = 'IMPORTANT' THEN 0 ELSE 1 END,
+        CREATED_DATE DESC
+    </select>
+	
+	<insert id="noticeInsert" parameterType="noticeVo">
+        INSERT INTO BOARD (
+        	BOARD_NO,
+            BOARD_NAME,
+            BOARD_TYPE,
+            BOARD_CONTRNT,
+            BOARD_STATUS,
+            ADMIN_MEMBER_NO
+        )
+        VALUES (
+        	SEQ_NOTICE.NEXTVAL,
+            #{boardName},
+            #{boardType},
+            #{boardContent},
+            #{boardStatus},
+            #{adminMemberNo}
+        )
+	</insert>
+	
+	<select id="noticeDetail" resultType="noticeVo" parameterType="noticeVo">
+		SELECT *
+		FROM BOARD
+		WHERE board_no = #{boardNo}
+	</select>
+	
+	<update id="noticeDelete" parameterType="noticeVo">
+		UPDATE BOARD
+	    SET BOARD_STATUS = 'N'
+	    WHERE BOARD_NO = #{boardNo}
+	</update>
+	
+	<update id="noticeUpdate" parameterType="noticeVo" >
+		UPDATE BOARD 
+        SET 
+            board_name = #{boardName},
+            board_type = #{boardType},
+            board_content = #{boardContent},
+            board_status = #{boardStatus}
+        WHERE board_no = #{boardNo}	   
+	</update>
+	
+	<select id="noticeType" resultType="noticeVo">
+		SELECT * 
+		FROM BOARD WHERE BOARD_TYPE = #{boardType}
+		AND BOARD_STATUS = 'Y'
+        ORDER BY board_no DESC
+	</select>
+	
+	
+</mapper>

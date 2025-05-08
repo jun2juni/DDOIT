@@ -1,0 +1,91 @@
+/* components/sidebar.css */
+/* 프로필 카드 스타일 */
+.profile-card {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.profile-card-header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.profile-card-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-card-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.profile-card-bio {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.profile-card-achievements {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.achievement-badge {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(var(--main-rgb), 0.1);
+    color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 네비게이션 스타일 */
+.nav-group {
+    padding: 15px 0;
+}
+
+.nav-group-title {
+    padding: 0 20px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #666;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    gap: 12px;
+}
+
+.nav-link:hover {
+    background: rgba(var(--main-rgb), 0.1);
+    color: var(--main-color);
+}
+
+.nav-link.active {
+    background: rgba(var(--main-rgb), 0.1);
+    color: var(--main-color);
+    font-weight: 600;
+}
+
+.nav-link i {
+    width: 20px;
+    text-align: center;
+}

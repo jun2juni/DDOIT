@@ -1,0 +1,189 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DDOIT</title>
+    
+    <!-- 공통 스타일 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/layout.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/sidebar.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/chat.css">
+<body> 
+    <!-- 헤더 영역 -->
+    <header class="header">
+        <div class="container-fluid h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-auto">
+                    <!-- 로고 클릭시 메인 화면으로 이동해야 됩니다. -->
+                    <a href="${pageContext.request.contextPath}/index.do" class="logo">DDOIT</a>
+                </div>
+                <div class="col px-4">
+                    <div class="search-wrapper position-relative">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="form-control search-input" placeholder="검색어를 입력하세요">
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="d-flex align-items-center gap-3">
+                        <!-- href="#" 상점 페이지(모달) 연결해주세요 -->
+                        <a href="#" class="header-icon" id="shopButton">
+                            <i class="fas fa-store"></i>
+                        </a>
+                        <!-- href="#" 알림 페이지(모달) 연결해주세요 -->
+                        <a href="#" class="header-icon" id="notificationButton">
+                            <i class="fas fa-bell"></i>
+                        </a>
+                        <div class="dropdown">
+                            <button class="btn p-0" type="button" data-bs-toggle="dropdown">
+                                <img src="https://via.placeholder.com/32" alt="Profile" class="profile-img">
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/profile">프로필</a></li>
+                                <li><a class="dropdown-item" href="/settings">설정</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="/logout">로그아웃</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 레이아웃 -->
+    <div class="main-layout">
+        <!-- 좌측 사이드바 -->
+        <aside class="left-sidebar">
+            <!-- 프로필 카드 -->
+
+            <!-- 메인 네비게이션 -->
+            <nav class="main-nav">
+                <div class="nav-group">
+                    <h6 class="nav-group-title">커뮤니티</h6>
+                    <ul class="nav-list">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/timeline" class="nav-link active">
+                                <i class="fas fa-clock"></i>
+                                일상공유게시판
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/debugList.do" class="nav-link">
+                                <i class="fas fa-code"></i>
+                                에러공유게시판
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="nav-group">
+                    <h6 class="nav-group-title">학습관리</h6>
+                    <ul class="nav-list">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/planner.do" class="nav-link">
+                                <i class="fas fa-calendar"></i>
+                                학습 플래너
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/timetable" class="nav-link">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                시간표
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/certification.do" class="nav-link">
+                                <i class="fas fa-certificate"></i>
+                                자격증 일정
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="nav-group">
+                    <h6 class="nav-group-title">고객지원</h6>
+                    <ul class="nav-list">
+                        <li>
+                            <a href="/notices" class="nav-link">
+                                <i class="fas fa-bullhorn"></i>
+                                공지사항
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/inquiries" class="nav-link">
+                                <i class="fas fa-question-circle"></i>
+                                문의하기
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- 메인 컨텐츠 영역 -->
+        <main class="main-content">
+              <c:if test="${not empty mainContent}">
+        		<jsp:include page="${mainContent}" />
+    </c:if>
+        </main>
+
+        <!-- 우측 사이드바 -->
+        <aside class="right-sidebar">
+            <!-- 실시간 채팅 -->
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h6>실시간 채팅</h6>
+                    <span class="online-count">15</span>
+                </div>
+                <div class="chat-body">
+                    <div class="chat-messages">
+                        <!-- 채팅 메시지들이 여기에 동적으로 추가됩니다 -->
+                    </div>
+                    <div class="chat-input-wrapper">
+                        <input type="text" class="chat-input" placeholder="메시지 입력...">
+                        <button class="chat-send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 접속자 목록 -->
+            <div class="online-users">
+                <div class="online-users-header">
+                    <h6>현재 접속자</h6>
+                </div>
+                <ul class="online-users-list">
+                    <!-- 접속자 목록이 여기에 동적으로 추가됩니다 -->
+                </ul>
+            </div>
+
+            <!-- 인기 게시물 -->
+            <div class="popular-posts">
+                <div class="popular-posts-header">
+                    <h6>인기 게시물</h6>
+                </div>
+                <ul class="popular-posts-list">
+                    <!-- 인기 게시물이 여기에 동적으로 추가됩니다 -->
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <!-- 공통 스크립트 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/layout.js"></script>
+    <script src="${pageContext.request.contextPath}/js/component/header.js"></script>
+    <script src="${pageContext.request.contextPath}/js/component/sidebar.js"></script>
+    <%-- <script src="${pageContext.request.contextPath}/js/component/chat.js"></script> --%>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="post">
+	
+	<select id="postList" parameterType="pagingVo" resultType="postVo"> <!-- 나중에 boardNo도 받아와서 출력해야 함. -->
+		SELECT *
+		FROM (SELECT ROWNUM RN, A.*
+				FROM (SELECT POST_NO,
+							 POST_NAME,
+							 CONTENT,
+							 P.MEM_NO,
+							 M.MEM_NICKNAME,
+							 P.CREATED_DATE,
+							 P.BOARD_NO
+						FROM POST P, MEMBER M
+						WHERE P.MEM_NO = M.MEM_NO
+						AND POST_STATUS = 'Y'
+						AND P.BOARD_NO = {boardNo} 세션에서 가져와서 넣기
+						ORDER BY P.POST_NO DESC
+						)A
+					)
+		<![CDATA[
+		WHERE RN >= #{startNo} AND RN <= #{endNo}
+		]]>
+	</select>
+	
+	<select id="totalCount" parameterType="pagingVo" resultType="int">
+				SELECT count(*) cnt
+				FROM POST P, MEMBER M , BOARD B
+				WHERE P.MEM_NO = M.MEM_NO
+				AND P.BOARD_NO = B.BOARD_NO <!-- 세션에서 가져오기 -->
+				<if test='searchVo.postName != null and searchVo.postName != ""'>
+					AND POST_NAME LIKE '%'||#{postName}||'%'
+				</if>
+				<if test='searchVo.content != null and searchVo.content != ""'>
+					AND CONTENT LIKE '%'||#{searchVo.content}||'%'
+				</if> 
+				<if test='searchVo.memNickname != null and searchVo.memNickname != ""'>
+					AND M.MEM_NICKNAME LIKE '%'||#{searchVo.memNickname}||'%'
+				</if>  
+				ORDER BY POST_NO DESC
+		    
+	</select>
+	
+	<select id="postDetail" parameterType="postVo" resultType="postVo">
+		SELECT P.*, M.MEM_NICKNAME
+		FROM POST P, MEMBER M
+		WHERE P.BOARD_NO = #{boardNo}
+		  AND P.MEM_NO = M.MEM_NO
+		  AND POST_NO = #{postNo}
+		  AND POST_STATUS = 'Y'
+	</select>
+	
+	<insert id="postInsert" parameterType="postVo">
+		INSERT INTO  POST( POST_NO, BOARD_NO, MEM_NO, POST_NAME, CONTENT )
+						 VALUES( (SELECT NVL(MAX(POST_NO),0)+1 FROM POST),
+		 						 #{boardNo},
+		 						 #{memNo},
+		 						 #{postName},
+		 						 #{content}
+		 						 )
+	</insert>
+	
+	<update id="postUpdate" parameterType="postVo">
+		UPDATE POST
+			SET POST_NAME = #{postName},
+			    CONTENT = #{content},
+			    MODIFIED_DATE = SYSDATE
+			WHERE POST_NO = #{postNo}
+			AND POST_STATUS = 'Y'
+	</update>
+	
+	
+	
+	<!-- 댓글 -->
+	<!-- number타입 데이터가 null이면 자동으로 0으로 들어오나봄. -->
+	<select id="comments" parameterType="postVo" resultType="commentsVo">
+		SELECT C.COMMENT_NO,
+			   C.POST_NO,
+			   C.MEM_NO,
+			   C.REPLY_NO,
+			   C.CREATED_DATE,
+			   C.STATUS,
+		  	   C.CONTENT, 
+			   M.MEM_NICKNAME
+		 FROM COMMENTS C, MEMBER M
+		WHERE C.POST_NO = #{postNo}
+		  AND M.MEM_NO = C.MEM_NO
+		  AND STATUS = 'Y'
+	</select>
+	
+	<!-- 답글 -->
+	<select id="replyList" parameterType="postVo" resultType="replyVo">
+		SELECT R.*, M.MEM_NICKNAME
+		  FROM REPLY R, MEMBER M
+		 WHERE R.POST_NO = #{postNo}
+		   AND M.MEM_NO = R.MEM_NO
+		   AND POST_STATUS = 'Y'
+	</select>
+	
+	<!-- 채택된 답글 -->
+	<select id="accepted" parameterType="postVo" resultType="replyVo">
+		SELECT R.*, M.MEM_NICKNAME
+		  FROM REPLY R, MEMBER M, DBG_ACCEPTED D
+		 WHERE D.POST_NO = #{postNo}
+		   AND R.REPLY_NO = D.ACCEPTED_REPLY_NO
+		   AND M.MEM_NO = R.MEM_NO
+		   AND POST_STATUS = 'Y'
+	</select>
+	
+	<insert id="commentInsert" parameterType="commentsVo">
+		INSERT INTO COMMENTS(COMMENT_NO,POST_NO, MEM_NO, CONTENT
+						    <if test='replyNo!=0'>
+						    ,REPLY_NO
+						    </if>
+						    )
+					  VALUES((SELECT(NVL(MAX(COMMENT_NO),0)+1)FROM COMMENTS),
+					  #{postNo},
+					  #{memNo},
+					  #{content}
+					  <if test='replyNo!=0'>
+					  ,#{replyNo}
+					  </if>
+					  )
+	</insert>
+	
+	<update id="commentUpdate" parameterType="commentsVo">
+		UPDATE COMMENTS
+		SET CONTENT = #{content}
+		WHERE COMMENT_NO = #{commentNo} 
+		  AND STATUS = 'Y'
+	
+	</update>
+	
+	<update id="commentDelete" parameterType="commentsVo">
+		UPDATE COMMENTS
+		SET CONTENT = '',
+			STATUS = 'N'
+		WHERE COMMENT_NO = #{commentNo}
+	</update>
+	
+	<!-- replyVo가 postNo와 replyNo 모두 담을 수 있어서 그냥 replyVo로 통일한다. -->
+	<update id="replyDelete" parameterType="replyVo">
+		UPDATE REPLY
+		SET CONTENT = '',
+			POST_STATUS = 'N'
+		WHERE REPLY_NO = #{replyNo}
+	</update>
+	
+	<update id="postDelete" parameterType="replyVo">
+		UPDATE POST
+		SET CONTENT = '',
+			POST_STATUS = 'N'
+		WHERE POST_NO = #{postNo}
+	</update>
+	
+	<update id="superDeleteReply" parameterType="replyVo">
+		UPDATE REPLY
+		SET CONTENT = '',
+			POST_STATUS = 'N'
+		<choose>
+			<when test="postNo != 0">
+				WHERE POST_NO = #{postNo}
+			</when>
+			<otherwise>
+				WHERE REPLY_NO = #{replyNo}
+			</otherwise>
+		</choose>
+	</update>
+	
+	<update id="superDeleteComments" parameterType="replyVo">
+		UPDATE COMMENTS
+		SET CONTENT = '',
+			STATUS = 'N'
+		<choose>
+			<when test="postNo != 0">
+				WHERE POST_NO = #{postNo}
+			</when>
+			<otherwise>
+				WHERE REPLY_NO = #{replyNo}
+			</otherwise>
+		</choose>	
+	</update>
+	
+</mapper>
+
+
+
+
+
+
+

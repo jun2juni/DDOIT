@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	
+	<select id="listMember" parameterType="memberVo">
+		SELECT * 
+		FROM member
+	</select>
+
+	<insert id="insertMember" parameterType="memberVo">
+		INSERT INTO member (
+			mem_name,
+			mem_id,
+			mem_password,
+			mem_nickname,
+			mem_email,
+			mem_phone
+		)
+		VALUES (
+			#{memName},
+			#{memId},
+			#{memPassword},
+			#{memNickname},
+			#{memEmail},
+			#{memPhone}
+		)
+	</insert>
+	<update id="updateMember" parameterType="memberVo">
+		UPDATE MEMBER
+		SET 
+		    MEM_PASSWORD = #{memPassword},
+		    MEM_NICKNAME = #{memNickname},
+		    MEM_EMAIL = #{memEmail},
+		    MEM_PHONE = #{memPhone}
+		WHERE MEM_NO = #{memNo}
+	</update>
+	
+	<!-- 아이디 중복체크 -->
+    <select id="idDuplicationCheck" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM member
+        WHERE mem_id = #{memId}
+        AND mem_status = 'Y'
+    </select>
+    
+    <!-- 닉네임 중복체크 -->
+    <select id="nickNameDuplicationCheck" parameterType="String" resultType="int">
+        SELECT COUNT(*)
+        FROM member
+        WHERE mem_nickname = #{memNickname}
+        AND mem_status = 'Y'
+    </select>
+
+</mapper>

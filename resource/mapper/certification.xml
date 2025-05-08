@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="certifi">
+	<select id="certifiList" resultType="certifiVo">
+	SELECT *
+	FROM
+	CERTIFICATION
+	ORDER BY CERTIFICATION_NO
+	</select>
+	
+	<insert id="certifiInsert">		   		
+		   		
+	INSERT INTO CERTIFICATION
+	VALUES((SELECT NVL(MAX(CERTIFICATION_NO),0)+1 
+	        FROM CERTIFICATION)
+	    	,#{certificationName}
+	   		,#{institution}
+	    	,#{registrationStartDate}
+	   		,#{registrationEndDate}
+	   		,SYSDATE
+	   		,#{calendarBackgroundcolor})
+		
+	</insert>
+		
+	<update id="certifiUpdate" parameterType="certifiVo">
+	UPDATE CERTIFICATION
+	SET CERTIFICATION_NAME = #{certificationName},
+		INSTITUTION =#{institution},
+		REGISTRATION_START_DATE = #{registrationStartDate},
+ 		REGISTRATION_END_DATE = #{registrationEndDate},
+ 		CREATED_AT = SYSDATE,
+ 		CALENDARBACKGROUNDCOLOR= #{calendarBackgroundcolor}
+	WHERE CERTIFICATION_NO = #{certificationNo}
+	</update>
+		
+	<delete id="certifiDelete" parameterType="certifiVo">
+	
+	DELETE FROM CERTIFICATION
+	WHERE CERTIFICATION_NO= #{certificationNo}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          		
+	</delete>
+		
+</mapper>

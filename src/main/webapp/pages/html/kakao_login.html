@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+</head>
+<body>
+    <a href="javacript:kakao_login" ></a>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js">
+
+    </script>
+    <script>
+    //2ae3ef7d8871d8c8fde39338356fe373
+
+    window.Kakao.init("2ae3ef7d8871d8c8fde39338356fe373");
+
+    function kakaoLogin(){
+        window .Kakao.Auth.login({
+            scope: 'profile_nickname,account_email,name,phone_number',
+            success: function(authObj){
+                console.log(authObj)
+                window.Kakao.API.request({
+                    url:'v2/user/me',
+                    success: res=>{
+                        const kakao_account= res.kakao.account;
+                        console.log(kakao_account);
+
+                    }
+                });
+
+                
+
+            }
+
+
+        });
+
+
+    }
+
+</script>
+</body>
+</html>

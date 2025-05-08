@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties resource="db.properties" />
+	
+	<settings>
+		<setting name="mapUnderscoreToCamelCase" value="true"/> <!-- DB에 있는 컬럼명을 CamleCase로 바꿔서 처리해 줌 mem_no -> memNo -->
+	</settings>
+	<!-- 
+	    POOLED : MyBatis 자체 DB 커넥션을 사용한다.
+	                        미리 DB 커넥션 객체를 생성해 두고 요청하면 즉시 반환한다.
+	                        데이터베이스 연결을 초기화하고 사용자를 인증하는 과정이 없기 때문에 속도가 빠르다.
+	-->
+	
+
+	<typeAliases>
+		 <typeAlias type="kr.or.ddoit.vo.NoticeVo" alias="noticeVo"/>
+		 <typeAlias type="kr.or.ddoit.vo.MemberVo" alias="memberVo"/>
+		 <typeAlias type="kr.or.ddoit.vo.ProdVo" alias="prodVo"/>
+		 <typeAlias type="kr.or.ddoit.vo.PostVo" alias="postVo"/>
+         <typeAlias type="kr.or.ddoit.vo.PaginationVo" alias="pagingVo"/>
+		 <typeAlias type="kr.or.ddoit.vo.CertificationVo" alias="certifiVo"/>
+		 <typeAlias type="kr.or.ddoit.vo.ReplyVo" alias="replyVo"/>
+         <typeAlias type="kr.or.ddoit.vo.CommentsVo" alias="commentsVo"/>
+         <typeAlias type="kr.or.ddoit.vo.StudyBoardVo" alias="studyboardVo"/>
+         <typeAlias type="kr.or.ddoit.vo.ProfileVo" alias="profileVo"/>
+         <typeAlias type="kr.or.ddoit.vo.AchievementVo" alias="achieveVo"/>
+         <typeAlias type="kr.or.ddoit.vo.AchievementConditionVo" alias="conditionVo"/>
+         <typeAlias type="kr.or.ddoit.vo.AchievementCompletionVo" alias="completionVo"/>
+         <typeAlias type="kr.or.ddoit.vo.PlannerVo" alias="plannerVo"/>
+	</typeAliases>
+	
+	<environments default="dev">
+		<environment id="dev">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${user}"/>
+				<property name="password" value="${pass}"/>
+				<!-- 활성화된 최대 커넥션 수 -->
+				<property name="poolMaximumActiveConnections" value="5"/>
+				<!-- 유휴상태에서의  최대 커넥션 수 -->
+				<property name="poolMaximumIdleConnections" value="5"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		 <mapper resource="mapper/Notice.xml"/>
+		 <mapper resource="mapper/certification.xml"/>
+		 <mapper resource="mapper/member.xml"/>
+		 <mapper resource="mapper/login.xml"/>
+		 <mapper resource="mapper/prod.xml"/>
+         <mapper resource="mapper/post.xml"/>
+         <mapper resource="mapper/StudyBoard.xml"/>
+         <mapper resource="mapper/profile.xml"/>
+         <mapper resource="mapper/achievement.xml"/>
+         <mapper resource="mapper/planner.xml"/>
+	</mappers>
+
+</configuration>
