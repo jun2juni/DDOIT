@@ -107,16 +107,14 @@ public class CertificationController extends HttpServlet {
 	
 		// json 타입으로 보내주기 
 		JSONObject jsonObj = new JSONObject();
-		// 리스트 JsonArray에 담아 보내기
-		JSONArray jsonArray  =new JSONArray();
+
 		
 		jsonObj.put("title" , certificationName);
 		jsonObj.put("groupId" , institution);
 		jsonObj.put("start" , registrationStartDate);
 		jsonObj.put("end", registrationEndDate);
 		jsonObj.put("color", calendarBackgroundcolor);
-		//이게 담기는
-		//System.out.println("jsonArray :"+jsonArray);
+		
 		System.out.println("jsonObj :"+jsonObj);
 		
 		resp.setContentType("application/x-json; charset=utf-8");
