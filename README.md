@@ -95,16 +95,22 @@ DDOIT/
 ## 📷 주요 화면
 > 로그인
 ![image](https://github.com/user-attachments/assets/5af5bbdf-a008-4119-8258-b853b4cc6eed)
+---
 > 회원가입
 ![image](https://github.com/user-attachments/assets/4b517aab-4c68-4cab-8372-5a57032aaad0)
+---
 > 아이템상점
 ![image](https://github.com/user-attachments/assets/97f77944-bdc8-452c-96ea-a42bdf27985a)
+---
 > 위시리스트
 ![image](https://github.com/user-attachments/assets/cc758b63-b8e8-464d-9e14-5462d9860a61)
+---
 > 내 아이템
 ![image](https://github.com/user-attachments/assets/48c8128a-d86b-4554-bae6-10f3ebad7c9a)
+---
 > 카카오페이결제하기
 ![image](https://github.com/user-attachments/assets/5619819a-57b9-4f32-bec7-d965482b00f5)
+---
 > 자격증일정관리
 ![image](https://github.com/user-attachments/assets/e78fe413-069d-4b62-80e2-055c293d5641)
 > 시간표
