@@ -93,9 +93,10 @@ DDOIT/
 ---
 
 ## 📷 주요 화면
-
+> 로그인
 ![로그인](https://github.com/user-attachments/assets/5af5bbdf-a008-4119-8258-b853b4cc6eed)
 ---
+> 회원가입
 ![회원가입](https://github.com/user-attachments/assets/4b517aab-4c68-4cab-8372-5a57032aaad0)
 ---
 > 아이템상점
