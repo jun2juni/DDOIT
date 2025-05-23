@@ -120,7 +120,6 @@ DDOIT/
 ---
 
 ## 📌 ERD 및 다이어그램
-> DB 구조와 시스템 전체 구조를 ERD가 포함하세요.
 ![ERD](https://github.com/user-attachments/assets/99d5218b-025b-4a9d-90e7-b5c43ed05082)
 ---
 
