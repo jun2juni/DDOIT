@@ -48,14 +48,12 @@
 ## 💻 개발 환경 및 기술 스택
 
 * **개발언어**: Java, JSP, HTML5, XML, CSS3, JavaScript(Ajax, JSON)
-* **프레임워크**: mybatis, jQuery, Bootstrap, 
+* **프레임워크**: mybatis, jQuery, Bootstrap
 * **라이브러리**: FullCalendar
+* **데이터베이스**:  Oracle DB, SQL Developer, JDBC
 * **협업툴**: GitHub, SVN, Discord
 * **개발툴**: Eclipse, Maven, ERDCloud, Vs code
 * **클라우드서비스 or 기타 툴**: AWS, Docker
-* **데이터베이스**: Oracle DB, SQL Developer
-* **기능**: JSP, Servlet, JDBC ??? 이건 어디에???
-
 ---
 
 ## 🔧 주요 기능
